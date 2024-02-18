@@ -21,23 +21,25 @@ class _ProductListScreenState extends State<ProductListScreen> {
     http.Response response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      // response.body is treated as String
+      // Then Decoded, it is treated as JSON
       var jsonResponse = jsonDecode(response.body);
-      int count = 1;
 
       for (var jsonItem in jsonResponse) {
-        // they were creating some issue
-        // they = jsonItem having IDs from below list
-        if ([5, 6, 7, 9, 10, 11, 12, 13].contains(count)) {
-          continue;
+        Product product;
+        try {
+          product = Product.fromJson(jsonItem);
+          productList.add(product);
+        } catch (error) {
+          print(
+              'Error catched (during JSON Object to Product Object conversion):');
+          print('ERROR: $error');
         }
-        count++;
-        Product product = Product.fromJson(jsonItem);
-
-        productList.add(product);
       }
     } //else {
     //   throw Exception('Something went wrong!');
     // }
+
     return productList;
   }
 
@@ -49,7 +51,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.orange,
         title: const Text(
-          'Products List',
+          'Products List from API',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
