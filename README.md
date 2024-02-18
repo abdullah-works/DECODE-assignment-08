@@ -1,4 +1,4 @@
-# API Fakestore App
+# Fakestore API App
 ## DECODE-assignment-08
 
 This (repository) is a Flutter Project containing specifically Dart Code (solution) for Assignment No. 08 (see requirements below) given as part of the overall assessment during the *DECODE App Development Training Program.
