@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:api_fakestore_app/model/product.dart';
+import 'package:api_fakestore_app/widgets/product_container.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -74,17 +75,22 @@ class _ProductListScreenState extends State<ProductListScreen> {
               }
 
               List<Product> productList = snapshot.data!;
-              // will display all the products here
-              return const Center(
-                child: Text(
-                  'Now, we are cooking.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
+              return Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: GridView.builder(
+                    itemCount: productList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 300,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5,
+                    ),
+                    itemBuilder: ((context, index) {
+                      Product? productData = productList[index];
+
+                      return ProductContainer(product: productData);
+                    })),
               );
             }
             if (snapshot.hasError) {
